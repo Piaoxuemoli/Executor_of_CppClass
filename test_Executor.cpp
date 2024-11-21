@@ -20,4 +20,16 @@ namespace adas_Executor
 		const Pose target({ 0, 0, 'E' });
 		ASSERT_EQ(target, executor->GetPose());
 	}
+	//测试初始化为{1，1，’N’}后，GetPose()返回{1，1，’N’}
+	TEST(ExecutorTest, should_return_seted_pose_when_initialized_with_command)
+	{
+		//given
+		auto executor = std::make_shared<MyExecutor>();
+		executor->IniPose({ 1, 1, 'N' });
+		//when
+		//then
+		const Pose target({ 1, 1, 'N' });
+		ASSERT_EQ(target, executor->GetPose());
+	}
+
 }
