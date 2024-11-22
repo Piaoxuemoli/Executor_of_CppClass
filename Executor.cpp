@@ -4,6 +4,7 @@
 #include <functional>
 #include <stdexcept>
 #include <memory>
+#include <iostream>
 
 using namespace std;
 using namespace adas_Executor;
@@ -14,10 +15,6 @@ public:
     MyExecutor()
     {
         IniPose(Pose(0, 0, 'N'));  //初始化初始姿态
-        //根据命令调用对应的函数
-        commandMap["M"] = [this]() { Move(); };
-        commandMap["L"] = [this]() { TurnLeft(); };
-        commandMap["R"] = [this]() { TurnRight(); };
     }
 
 public:
@@ -28,16 +25,29 @@ public:
 
     void Execute(const std::string& command) override  //读入命令并执行，然后更新姿态
     {
-        // 检查命令是否存在
-        if (commandMap.find(command) != commandMap.end())
+        for (const auto& cmd : command)
         {
-            // 执行对应的命令
-            commandMap[command]();
-        }
-        else
-        {
-            // 处理未知命令
-            throw std::invalid_argument("Unknown command: " + command);
+            unique_ptr<ICommand> cmder;
+            if (cmd == 'M')
+            {
+                cmder = make_unique<MoveCommand>();
+            }
+            else if (cmd == 'L')
+            {
+                cmder = make_unique<TurnLeftCommand>();
+            }
+            else if (cmd == 'R')
+            {
+                cmder = make_unique<TurnRightCommand>();
+            }
+            else if (cmd == 'F')
+            {
+                cmder = make_unique<FastCommand>();
+            }
+            if (cmder)
+            {
+                cmder->DoOperate(*this);
+            }
         }
     }
 
@@ -46,42 +56,124 @@ public:
         return pose_;
     }
 
-private:
-    Pose pose_;  // 成员变量位姿
-    std::map<std::string, std::function<void()>> commandMap;  //根据命令调用对应的函数
     void Move() //移动
     {
-        if (pose_.heading == 'N')
-            pose_.y += 1;
-        else if (pose_.heading == 'S')
-            pose_.y -= 1;
-        else if (pose_.heading == 'E')
-            pose_.x += 1;
-        else if (pose_.heading == 'W')
-            pose_.x -= 1;
+        if (-is_Fast)
+        {
+            if (pose_.heading == 'N')
+                pose_.y += 1;
+            else if (pose_.heading == 'S')
+                pose_.y -= 1;
+            else if (pose_.heading == 'E')
+                pose_.x += 1;
+            else if (pose_.heading == 'W')
+                pose_.x -= 1;
+        }
+        else  //快速
+        {
+            if (pose_.heading == 'N')
+            {
+                pose_.y += 1;
+                pose_.y += 1;  //两步执行
+            }
+            else if (pose_.heading == 'S')
+            {
+                pose_.y -= 1;
+                pose_.y -= 1;
+            }
+            else if (pose_.heading == 'E')
+            {
+                pose_.x += 1;
+                pose_.x += 1;
+            }
+            else if (pose_.heading == 'W')
+            {
+                pose_.x -= 1;
+                pose_.x -= 1;
+            }
+        }
     }
 
     void TurnLeft()  //左转
     {
-        if (pose_.heading == 'N')
-            pose_.heading = 'W';
-        else if (pose_.heading == 'S')
-            pose_.heading = 'E';
-        else if (pose_.heading == 'E')
-            pose_.heading = 'N';
-        else if (pose_.heading == 'W')
-            pose_.heading = 'S';
+        if (-is_Fast)
+        {
+            if (pose_.heading == 'N')
+                pose_.heading = 'W';
+            else if (pose_.heading == 'S')
+                pose_.heading = 'E';
+            else if (pose_.heading == 'E')
+                pose_.heading = 'N';
+            else if (pose_.heading == 'W')
+                pose_.heading = 'S';
+        }
+        else  //快速
+        {
+            if (pose_.heading == 'N')
+            {
+                pose_.y += 1;
+                pose_.heading = 'W';  //两步执行
+            }
+            else if (pose_.heading == 'S')
+            {
+                pose_.y -= 1;
+                pose_.heading = 'E';
+            }
+            else if (pose_.heading == 'E')
+            {
+                pose_.x += 1;
+                pose_.heading = 'N';
+            }
+            else if (pose_.heading == 'W')
+            {
+                pose_.x -= 1;
+                pose_.heading = 'S';
+            }
+        }
     }
 
     void TurnRight()  //右转
     {
-        if (pose_.heading == 'N')
-            pose_.heading = 'E';
-        else if (pose_.heading == 'S')
-            pose_.heading = 'W';
-        else if (pose_.heading == 'E')
-            pose_.heading = 'S';
-        else if (pose_.heading == 'W')
-            pose_.heading = 'N';
+        if (-is_Fast) {
+            if (pose_.heading == 'N')
+                pose_.heading = 'E';
+            else if (pose_.heading == 'S')
+                pose_.heading = 'W';
+            else if (pose_.heading == 'E')
+                pose_.heading = 'S';
+            else if (pose_.heading == 'W')
+                pose_.heading = 'N';
+        }
+        else  //快速
+        {
+            if (pose_.heading == 'N')
+            {
+                pose_.y += 1;
+                pose_.heading = 'E';  //两步执行
+            }
+            else if (pose_.heading == 'S')
+            {
+                pose_.y -= 1;
+                pose_.heading = 'W';
+            }
+            else if (pose_.heading == 'E')
+            {
+                pose_.x += 1;
+                pose_.heading = 'S';
+            }
+            else if (pose_.heading == 'W')
+            {
+                pose_.x -= 1;
+                pose_.heading = 'N';
+            }
+        }
     }
+
+    void Fast()  //快速
+    {
+        is_Fast = -is_Fast;
+    }
+
+private:
+    Pose pose_;  // 成员变量位姿
 };
