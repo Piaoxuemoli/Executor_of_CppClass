@@ -46,4 +46,16 @@ namespace adas_Executor
 		ASSERT_EQ(target, executor->GetPose());
 	}
 
+	//测试初始位置为{0，0，’W’}，执行命令M后，GetPose()返回{-1，0，’W’}
+	TEST(ExecutorTest, should_return_x_minus_1_given_command_is_M_and_facing_is_W)
+	{
+		// given
+		auto executor = std::make_shared<MyExecutor>();
+		executor->IniPose({ 0, 0, 'W' });
+		// when
+		executor->Execute("M");
+		// then
+		const Pose target({ -1, 0, 'W' });
+		ASSERT_EQ(target, executor->GetPose());
+	}
 }
