@@ -36,4 +36,17 @@ namespace adas_Executor
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 
+    //测试状态{0,0,'E'}下执行命令FL后，是否返回正确的下一状态{1,0,'N'}
+	TEST(ExecutorTest, should_return_x_plus_1_given_states_0_0_E_and_command_FL)
+	{
+		//given
+		MyExecutor executor;
+		//when
+		executor.IniPose({ 0, 0, 'E' });
+		executor.Execute("FL");
+		//then
+		const Pose& target_pose = { 1, 0, 'N' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
 }
