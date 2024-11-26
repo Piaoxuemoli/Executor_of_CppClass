@@ -59,7 +59,7 @@ public:
 
     void Move() //移动
     {
-        if (-is_Fast)
+        if (!is_Fast)
         {
             if (pose_.heading == 'N')
                 pose_.y += 1;
@@ -97,7 +97,7 @@ public:
 
     void TurnLeft()  //左转
     {
-        if (-is_Fast)
+        if (!is_Fast)
         {
             if (pose_.heading == 'N')
                 pose_.heading = 'W';
@@ -135,7 +135,7 @@ public:
 
     void TurnRight()  //右转
     {
-        if (-is_Fast) {
+        if (!is_Fast) {
             if (pose_.heading == 'N')
                 pose_.heading = 'E';
             else if (pose_.heading == 'S')
@@ -172,10 +172,10 @@ public:
 
     void Fast()  //快速
     {
-        is_Fast = -is_Fast;
+        is_Fast = !is_Fast;
     }
 
 public:
     Pose pose_;  // 成员变量位姿
-    int is_Fast;  // 成员变量快速
+    bool is_Fast;  // 成员变量快速
 };

@@ -22,4 +22,18 @@ namespace adas_Executor
 		const Pose& target_pose = { 2, 0, 'E' };
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
+
+	//测试状态{0,0,'N'}下执行命令FFM后，是否返回正确的下一状态{0,1,'N'}
+	TEST(ExecutorTest, should_return_y_plus_1_given_states_0_0_N_and_command_FFM)
+	{
+		//given
+		MyExecutor executor;
+		//when
+		executor.IniPose({ 0, 0, 'N' });
+		executor.Execute("FFM");
+		//then
+		const Pose& target_pose = { 0, 1, 'N' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
 }

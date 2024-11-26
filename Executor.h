@@ -74,7 +74,5 @@ namespace adas_Executor
 				executor.Fast();
 			}
 		};
-	public:
-		int is_Fast = 0;  //是否快速行动
 	};	
 }
