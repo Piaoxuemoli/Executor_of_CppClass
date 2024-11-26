@@ -75,6 +75,6 @@ namespace adas_Executor
 			}
 		};
 	public:
-		bool is_Fast = false;  //是否快速行动
+		int is_Fast = 0;  //是否快速行动
 	};	
 }

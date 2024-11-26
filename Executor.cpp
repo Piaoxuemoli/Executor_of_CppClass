@@ -15,6 +15,7 @@ public:
     MyExecutor()
     {
         IniPose(Pose(0, 0, 'N'));  //初始化初始姿态
+        is_Fast = 0;  //初始化快速为0
     }
 
 public:
@@ -174,6 +175,7 @@ public:
         is_Fast = -is_Fast;
     }
 
-private:
+public:
     Pose pose_;  // 成员变量位姿
+    int is_Fast;  // 成员变量快速
 };

@@ -9,4 +9,17 @@ namespace adas_Executor
 	{   //为Pose定义==运算符重载
 		return std::tie(lhs.x, lhs.y, lhs.heading) == std::tie(rhs.x, rhs.y, rhs.heading);
 	}
+
+	//测试状态{0,0,'E'}下执行命令FM后，是否返回正确的下一状态{2,0,'E'}
+	TEST(ExecutorTest, should_return_x_plus_2_given_states_0_0_E_and_command_FM)
+	{
+		//given
+		MyExecutor executor;
+		//when
+		executor.IniPose({ 0, 0, 'E' });
+		executor.Execute("FM");
+		//then
+		const Pose& target_pose = { 2, 0, 'E' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
 }
