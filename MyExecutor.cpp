@@ -23,6 +23,7 @@ namespace adas_Executor
             cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
             cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
             cmderMap.emplace('F', std::make_unique<FastCommand>());
+            cmderMap.emplace('B', std::make_unique<ReverseCommand>());
 
             const auto it = cmderMap.find(cmd);
 

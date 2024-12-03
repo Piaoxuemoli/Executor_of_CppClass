@@ -17,9 +17,9 @@ namespace adas_Executor
 		MyExecutor executor({ 0, 0, 'N' });
 		//when
 		executor.SetPose({ 0, 0, 'E' });
-		executor.Execute("FM");
+		executor.Execute("BFM");
 		//then
-		const Pose& target_pose = { 2, 0, 'E' };
+		const Pose& target_pose = { -2, 0, 'E' };
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 

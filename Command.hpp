@@ -15,43 +15,80 @@ namespace adas_Executor
 	public:
 		void DoOperate(PoseHandler& poseHandler) const noexcept override //执行指令接口
 		{
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();  //掉头模拟倒车
+			}
 			if (poseHandler.IsFast())
 			{
 				poseHandler.Move();
 			}
 			poseHandler.Move();
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();  //掉头回去，模拟倒车结束
+			}
+			
 		}
 	};
+
 	class TurnLeftCommand :public ICommand   //左转向指令类
 	{
 	public:
 		void DoOperate(PoseHandler& poseHandler) const noexcept
 		{
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();
+			}
 			if (poseHandler.IsFast())
 			{
 				poseHandler.Move();
 			}
 			poseHandler.TurnLeft();
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();
+			}
 		}
 	};
+
 	class TurnRightCommand :public ICommand  //右转向指令类
 	{
 	public:
 		void DoOperate(PoseHandler& poseHandler) const noexcept
 		{
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();
+			}
 			if (poseHandler.IsFast())
 			{
 				poseHandler.Move();
 			}
 			poseHandler.TurnRight();
+			if (poseHandler.IsReverse())
+			{
+				poseHandler.Backward();
+			}
 		}
 	};
+
 	class FastCommand :public ICommand  //快速行动指令类
 	{
 	public:
 		void DoOperate(PoseHandler& poseHandler) const noexcept
 		{
 			poseHandler.Fast();
+		}
+	};
+
+	class ReverseCommand :public ICommand  //倒车行动指令类
+	{
+	public:
+		void DoOperate(PoseHandler& poseHandler) const noexcept
+		{
+			poseHandler.Reverse();
 		}
 	};
 }

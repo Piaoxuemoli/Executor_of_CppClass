@@ -47,9 +47,26 @@ namespace adas_Executor
             pose_.heading = 'N';
     }
 
+    void PoseHandler::Backward()  //掉头
+    {
+        if (pose_.heading == 'N')
+            pose_.heading = 'S';
+        else if (pose_.heading == 'S')
+            pose_.heading = 'N';
+        else if (pose_.heading == 'E')
+            pose_.heading = 'W';
+        else if (pose_.heading == 'W')
+            pose_.heading = 'E';
+    }
+
     void PoseHandler::Fast()  //快速
     {
         is_Fast = !is_Fast;
+    }
+
+    void PoseHandler::Reverse()  //倒车
+    {
+        is_Reverse = !is_Reverse;
     }
 
     Pose PoseHandler::GetPose() const  //获取当前姿态
@@ -60,5 +77,10 @@ namespace adas_Executor
     bool PoseHandler::IsFast() const  //获取当前速度
     {
         return is_Fast;
+    }
+
+    bool PoseHandler::IsReverse() const  //获取当前倒车状态
+    {
+        return is_Reverse;
     }
 }
