@@ -135,10 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Executor.h" />
+    <ClInclude Include="Command.hpp" />
+    <ClInclude Include="Executor.hpp" />
+    <ClInclude Include="MyExecutor.hpp" />
+    <ClInclude Include="PoseHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Executor.cpp" />
+    <ClCompile Include="MyExecutor.cpp" />
+    <ClCompile Include="PoseHandler.cpp" />
     <ClCompile Include="test_Executor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

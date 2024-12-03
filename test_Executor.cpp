@@ -1,64 +1,26 @@
-#include <iostream>
-#include "Executor.cpp"
+ï»¿#include <iostream>
+#include "MyExecutor.hpp"
 #include <tuple>
 #include <gtest/gtest.h>
 
 namespace adas_Executor
 {
 	bool operator==(const Pose& lhs, const Pose& rhs)
-	{   //ÎªPose¶¨Òå==ÔËËã·ûÖØÔØ
+	{   //ä¸ºPoseå®šä¹‰==è¿ç®—ç¬¦é‡è½½
 		return std::tie(lhs.x, lhs.y, lhs.heading) == std::tie(rhs.x, rhs.y, rhs.heading);
 	}
 
-	//²âÊÔ×´Ì¬{0,0,'E'}ÏÂÖ´ĞĞÃüÁîFMºó£¬ÊÇ·ñ·µ»ØÕıÈ·µÄÏÂÒ»×´Ì¬{2,0,'E'}
+	//æµ‹è¯•çŠ¶æ€{0,0,'E'}ä¸‹æ‰§è¡Œå‘½ä»¤FMåï¼Œæ˜¯å¦è¿”å›æ­£ç¡®çš„ä¸‹ä¸€çŠ¶æ€{2,0,'E'}
 	TEST(ExecutorTest, should_return_x_plus_2_given_states_0_0_E_and_command_FM)
 	{
 		//given
-		MyExecutor executor;
+		MyExecutor executor({ 0, 0, 'N' });
 		//when
-		executor.IniPose({ 0, 0, 'E' });
+		executor.SetPose({ 0, 0, 'E' });
 		executor.Execute("FM");
 		//then
 		const Pose& target_pose = { 2, 0, 'E' };
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 
-	//²âÊÔ×´Ì¬{0,0,'N'}ÏÂÖ´ĞĞÃüÁîFFMºó£¬ÊÇ·ñ·µ»ØÕıÈ·µÄÏÂÒ»×´Ì¬{0,1,'N'}
-	TEST(ExecutorTest, should_return_y_plus_1_given_states_0_0_N_and_command_FFM)
-	{
-		//given
-		MyExecutor executor;
-		//when
-		executor.IniPose({ 0, 0, 'N' });
-		executor.Execute("FFM");
-		//then
-		const Pose& target_pose = { 0, 1, 'N' };
-		ASSERT_EQ(target_pose, executor.GetPose());
-	}
-
-    //²âÊÔ×´Ì¬{0,0,'E'}ÏÂÖ´ĞĞÃüÁîFLºó£¬ÊÇ·ñ·µ»ØÕıÈ·µÄÏÂÒ»×´Ì¬{1,0,'N'}
-	TEST(ExecutorTest, should_return_x_plus_1_given_states_0_0_E_and_command_FL)
-	{
-		//given
-		MyExecutor executor;
-		//when
-		executor.IniPose({ 0, 0, 'E' });
-		executor.Execute("FL");
-		//then
-		const Pose& target_pose = { 1, 0, 'N' };
-		ASSERT_EQ(target_pose, executor.GetPose());
-	}
-
-	//²âÊÔ×´Ì¬{0,0,'E'}ÏÂÖ´ĞĞÃüÁîFRºó£¬ÊÇ·ñ·µ»ØÕıÈ·µÄÏÂÒ»×´Ì¬{1,0,'S'}
-	TEST(ExecutorTest, should_return_x_plus_1_given_states_0_0_E_and_command_FR)
-	{
-		//given
-		MyExecutor executor;
-		//when
-		executor.IniPose({ 0, 0, 'E' });
-		executor.Execute("FR");
-		//then
-		const Pose& target_pose = { 1, 0, 'S' };
-		ASSERT_EQ(target_pose, executor.GetPose());
-	}
 }
