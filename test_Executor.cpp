@@ -36,4 +36,17 @@ namespace adas_Executor
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 
+	//测试状态{0,0,'E'}下执行命令BFM后，是否返回正确的下一状态{-2,0,'E'}
+	TEST(ExecutorTest, should_return_x_minus_2_given_states_0_0_E_and_command_BFM)
+	{
+		//given
+		MyExecutor executor({ 0, 0, 'N' });
+		//when
+		executor.SetPose({ 0, 0, 'E' });
+		executor.Execute("BFM");
+		//then
+		const Pose& target_pose = { -2, 0, 'E' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
 }
