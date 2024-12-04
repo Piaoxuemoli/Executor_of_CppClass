@@ -127,4 +127,30 @@ namespace adas_Executor
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 
+	//测试状态{0,0,'E'}下执行命令FR后，是否返回正确的下一状态{0,0,'S'}
+	TEST(ExecutorTest, should_return_heading_S_and_x_plus_1_given_states_0_0_E_and_command_FR)
+	{
+		//given
+		MyExecutor executor({ 0, 0, 'N' });
+		//when
+		executor.SetPose({ 0, 0, 'E' });
+		executor.Execute("FR");
+		//then
+		const Pose& target_pose = { 1, 0, 'S' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
+	//测试状态{0,0,'E'}下执行命令BFR后，是否返回正确的下一状态{-1,0,'N'}
+	TEST(ExecutorTest, should_return_x_minus_1_and_heading_N_given_states_0_0_E_and_command_BFR)
+	{
+		//given
+		MyExecutor executor({ 0, 0, 'N' });
+		//when
+		executor.SetPose({ 0, 0, 'E' });
+		executor.Execute("BFR");
+		//then
+		const Pose& target_pose = { -1, 0, 'N' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
 }
