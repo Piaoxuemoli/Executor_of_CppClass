@@ -49,4 +49,17 @@ namespace adas_Executor
 		ASSERT_EQ(target_pose, executor.GetPose());
 	}
 
+	//测试状态{0,0,'N'}下执行命令BBM后，是否返回正确的下一状态{0,1,'N'}
+	TEST(ExecutorTest, should_return_y_plus_1_given_states_0_0_N_and_command_BBM)
+	{
+		//given
+		MyExecutor executor({ 0, 0, 'N' });
+		//when
+		executor.SetPose({ 0, 0, 'N' });
+		executor.Execute("BBM");
+		//then
+		const Pose& target_pose = { 0, 1, 'N' };
+		ASSERT_EQ(target_pose, executor.GetPose());
+	}
+
 }
