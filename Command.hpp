@@ -39,17 +39,13 @@ namespace adas_Executor
 		{
 			if (poseHandler.IsReverse())
 			{
-				poseHandler.Backward();
+				poseHandler.Backward();  //掉头模拟倒车，但是转向之后不用再掉头回去
 			}
 			if (poseHandler.IsFast())
 			{
 				poseHandler.Move();
 			}
 			poseHandler.TurnLeft();
-			if (poseHandler.IsReverse())
-			{
-				poseHandler.Backward();
-			}
 		}
 	};
 
@@ -67,10 +63,6 @@ namespace adas_Executor
 				poseHandler.Move();
 			}
 			poseHandler.TurnRight();
-			if (poseHandler.IsReverse())
-			{
-				poseHandler.Backward();
-			}
 		}
 	};
 
