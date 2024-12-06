@@ -61,7 +61,15 @@ namespace adas_Executor
 			poseHandler.TurnLeft();
 			if (poseHandler.IsRoadster())
 			{
+				if (poseHandler.IsReverse())
+				{
+					poseHandler.Backward();  //掉头模拟倒车
+				}
 				poseHandler.Move();
+				if (poseHandler.IsReverse())
+				{
+					poseHandler.Backward();  //掉头回来
+				}
 			}  //如果是跑车，则再执行一次移动操作
 		}
 	};
@@ -86,7 +94,15 @@ namespace adas_Executor
 			poseHandler.TurnRight();
 			if (poseHandler.IsRoadster())
 			{
+				if (poseHandler.IsReverse())
+				{
+					poseHandler.Backward();  //掉头模拟倒车
+				}
 				poseHandler.Move();
+				if (poseHandler.IsReverse())
+				{
+					poseHandler.Backward();  //掉头回来
+				}
 			}  //如果是跑车，则再执行一次移动操作
 		}
 	};
