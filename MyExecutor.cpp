@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//MyExecutor类，实现了命令执行器的功能，包括读取命令并执行，更新姿态，获取姿态等功能
 namespace adas_Executor
 {
 
@@ -42,5 +43,10 @@ namespace adas_Executor
     void MyExecutor::SetPose(const Pose& pose_) noexcept
     {
         poseHandler.SetPose(pose_);
+    }
+
+    void MyExecutor::SetCar(string& car_type) noexcept
+    {
+        poseHandler.SetCar(car_type);
     }
 }
