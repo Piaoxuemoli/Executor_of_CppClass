@@ -114,4 +114,19 @@ namespace adas_Executor
 		const Pose& target_pose = { 0, -2, 'E' };
 		EXPECT_EQ(target_pose, executor.GetPose());
 	}
+
+	//测试Roadster状态{0,0,'N'}下执行命令BFL后，是否返回正确的下一状态{-1,-1,'E'}
+	TEST(MyExecutorTest, Roadster_should_return_x_minus_1and_y_minus_1_and_heading_E_given_states_0_0_N_and_command_BFL)
+	{
+		//given
+		MyExecutor executor({ 0, 0, 'N' });
+		//when
+		executor.SetPose({ 0, 0, 'N' });
+		std::string roadster = "Roadster";
+		executor.SetCar(roadster);
+		executor.Execute("BFL");
+		//then
+		const Pose& target_pose = { -1, -1, 'E' };
+		EXPECT_EQ(target_pose, executor.GetPose());
+	}
 }
